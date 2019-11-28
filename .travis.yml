@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- 10
+branches:
+  only:
+  - master
+notifications:
+  email: false
+deploy:
+  provider: heroku
+  api_key: $HEROKU_KEY
+  app: prize-app-api
+  on:
+    repo: inovecomcoragem/prize-app-api
+    branch: master
