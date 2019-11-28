@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Definir premios</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
+
+    <style></style>
+  </head>
+
+  <body>
+    <div class="main-container">
+      <form action="../prize" method="post" id="prize-list"></form>
+    </div>
+  </body>
+  <script>
+    function displayList(response) {
+      if(response.prizes) {
+        const prizeForm = document.getElementById('prize-list');
+        response.prizes.forEach(p => {
+          var pLabel = document.createElement("label");
+          pLabel.classList.add("prize-label");
+          pLabel.setAttribute("for", p.slug);
+          pLabel.innerHTML = p.title;
+
+          var pQuantity = document.createElement("input");
+          pQuantity.classList.add("prize-input");
+          pQuantity.setAttribute("type", "number");
+          pQuantity.setAttribute("id", p.slug);
+          pQuantity.setAttribute("name", p.slug);
+          pQuantity.setAttribute("value", p.quantity);
+          pQuantity.setAttribute("data-title", p.title);
+          pQuantity.setAttribute("min", "0");
+          pQuantity.setAttribute("max", "500");
+
+          var pElement = document.createElement("div");
+          pElement.classList.add("prize-item");
+          pElement.appendChild(pLabel);
+          pElement.appendChild(pQuantity);
+
+          prizeForm.appendChild(pElement);
+        });
+        var pButton = document.createElement("input");
+        pButton.classList.add("prize-button");
+        pButton.setAttribute("type", "submit");
+        pButton.setAttribute("value", "Atualizar");
+        prizeForm.appendChild(pButton);
+      }
+    }
+
+    function httpGet(url, callback) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          callback(JSON.parse(xmlHttp.responseText));
+      }
+      xmlHttp.open("GET", url, true);
+      xmlHttp.send(null);
+    }
+
+    function httpPost(url) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          console.log("updated");
+      }
+      xmlHttp.open("POST", url, true);
+      xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      xmlHttp.send(buildUpdateJson());
+    }
+
+    window.onload = function() {
+      httpGet("../prize/all", displayList);
+    }
+  </script>
+</html>
