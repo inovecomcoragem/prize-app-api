@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const winston = require('winston');
 const Prize = require('../models/prize.model');
 
 router.get('/', (req, res) => {

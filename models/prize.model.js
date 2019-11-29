@@ -18,7 +18,7 @@ const PrizeSchema = new mongoose.Schema({
 
 const Prize = mongoose.model('prize', PrizeSchema);
 
-Prize.update = function(slug ,value) {
+Prize.update = function(slug, value) {
     return new Promise((resolve, reject) => {
         Prize.findOne({ slug: slug}).then((prize) => {
             if(prize) {
