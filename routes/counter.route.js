@@ -16,8 +16,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    if('counter' in req.body) {
-        Counter.update(req.body.counter).then(() => {
+    if('value' in req.body) {
+        Counter.update(req.body.value).then(() => {
             res.status(200).json({ messsage: 'value updated' });
         }).catch(() => {
             res.status(200).json({ messsage: 'value NOT updated' });
